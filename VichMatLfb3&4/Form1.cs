@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms.DataVisualization.Charting;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using Graphics_Least_squares;
 
 namespace VichMatLfb3_4
 {
@@ -204,17 +205,6 @@ namespace VichMatLfb3_4
 
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            CubicSplineInterpolation spline = new CubicSplineInterpolation(x, y);
-            chart1.Series[8].Points.Clear();
-            double step = 0.01;
-            for (double i = x.Min(); i <= x.Max(); i += step)
-            {
-                double yi = spline.Interpolate(i);
-                chart1.Series[8].Points.AddXY(i, yi);
-            }
-        }
 
         private void button8_Click(object sender, EventArgs e)
         {
@@ -227,35 +217,52 @@ namespace VichMatLfb3_4
                 g += 0.01;
             }
         }
+            private void button7_Click(object sender, EventArgs e)
+            {
+            Spline spline = new Spline();
+            spline.spline(z, c);
+            double g = x.Min();
+            chart1.Series[8].Points.Clear();
+            while (g < x.Max())
+            {
+                this.chart1.Series[8].Points.AddXY(g, spline.Interpolation(g));
+                g += 0.01;
+            }
+
+        }
 
         private void button9_Click(object sender, EventArgs e)
         {
+            Spline spline = new Spline();
+            spline.spline(z, c);
+            double g = x.Min();
             chart1.Series[6].Points.Clear();
-            double step = 0.01;
-            CubicSplineInterpolation spline = new CubicSplineInterpolation(x, y);
-            for (double i = x.Min(); i <= x.Max(); i += step)
+            while (g < x.Max())
             {
-                double yi = spline.FirstDerivative(i);
-                chart1.Series[6].Points.AddXY(i, yi);
-            }
+                this.chart1.Series[6].Points.AddXY(g, spline.dxFirst(g, 0.01));
+                g += 0.01;
 
+            }
         }
 
 
 
         private void button10_Click(object sender, EventArgs e)
         {
+            Spline spline = new Spline();
+            spline.spline(z, c);
+            double g = x.Min();
             chart1.Series[7].Points.Clear();
-            double step = 0.01;
-            CubicSplineInterpolation spline = new CubicSplineInterpolation(x, y);
-            for (double i = x.Min(); i <= x.Max(); i += step)
+            while (g < x.Max() - 0.1)
             {
-                double yi = spline.SecondDerivative(i);
-                chart1.Series[7].Points.AddXY(i, yi);
-            }
 
+                this.chart1.Series[7].Points.AddXY(g, spline.dxSecond(g, 0.01));
+                g += 0.01;
+
+
+            }
         }
-        private void button11_Click(object sender, EventArgs e)
+         private void button11_Click(object sender, EventArgs e)
         {
             double a = double.Parse(textBox11.Text);
             double b = double.Parse(textBox12.Text);

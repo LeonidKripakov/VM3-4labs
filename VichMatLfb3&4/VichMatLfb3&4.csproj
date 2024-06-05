@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CubicSplineInterpolation.cs" />
+    <Compile Include="Spline.cs" />
     <Compile Include="InterpolationLangrag.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
